@@ -105,21 +105,14 @@ const Countdown = ({ syncHoursAndMinutes }: ICountdownProps) => {
       circumference - (percent / 100) * circumference;
   }
 
-  const expectedDate = activeCycle?.startDate
-    ? differenceInMinutes(new Date(), new Date(activeCycle?.startDate))
-    : 0;
-
-  let dateExpected;
-  if (expectedDate > 0) {
-    dateExpected = addMinutes(
-      activeCycle?.startDate ? new Date(activeCycle?.startDate) : new Date(),
-      expectedDate
-    );
-  }
+  const dateExpected = addMinutes(
+    activeCycle?.startDate ? new Date(activeCycle?.startDate) : new Date(),
+    activeCycle?.minutesAmount || 0
+  );
+  console.log(dateExpected, amountSecondsPassed);
 
   useEffect(() => {
     if (!activeCycle?.paused) {
-      console.log(dateExpected);
       dateExpected && setExpectedDatesShow(format(dateExpected, "HH:mm"));
     }
   }, [dateExpected]);
@@ -156,7 +149,7 @@ const Countdown = ({ syncHoursAndMinutes }: ICountdownProps) => {
           new Date(activeCycle.startDate)
         );
 
-        dateExpected = addMinutes(new Date(), expectedDate);
+        dateExpected = addSeconds(new Date(activeCycle.paused), expectedDate);
         dateExpected = addSeconds(new Date(dateExpected), secondsDifference);
         dateExpected && setExpectedDatesShow(format(dateExpected, "HH:mm"));
       }, 1000);
