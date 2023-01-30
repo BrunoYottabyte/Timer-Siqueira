@@ -11,6 +11,7 @@ import {
   parse,
   subHours,
   subMinutes,
+  subSeconds,
 } from "date-fns";
 import {
   CircleProgressBar,
@@ -135,22 +136,20 @@ const Countdown = ({ syncHoursAndMinutes }: ICountdownProps) => {
     let intervalIsPaused: number;
     if (activeCycle?.paused && !activeCycle.stopWatch) {
       intervalIsPaused = setInterval(() => {
-        const expectedDate = activeCycle?.paused
-          ? activeCycle?.minutesAmount -
-            differenceInMinutes(
-              new Date(activeCycle?.paused),
-              new Date(activeCycle?.startDate)
-            )
-          : 0;
-
         let dateExpected;
         const secondsDifference = differenceInSeconds(
-          new Date(activeCycle.paused),
-          new Date(activeCycle.startDate)
+          new Date(),
+          new Date(activeCycle.paused)
         );
 
-        dateExpected = addSeconds(new Date(activeCycle.paused), expectedDate);
-        dateExpected = addSeconds(new Date(dateExpected), secondsDifference);
+        dateExpected = addSeconds(
+          new Date(activeCycle.paused),
+          secondsDifference
+        );
+        dateExpected = addSeconds(
+          new Date(dateExpected),
+          activeCycle.minutesAmount * 60 - amountSecondsPassed
+        );
         dateExpected && setExpectedDatesShow(format(dateExpected, "HH:mm"));
       }, 1000);
     }
