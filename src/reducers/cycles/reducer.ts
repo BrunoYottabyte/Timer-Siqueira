@@ -24,10 +24,15 @@ export function cyclesReducer(state: CyclesState, action: any) {
   switch (action.type) {
     case ActionTypes.ADD_NEW_CYCLE:
       return produce(state, (draft) => {
-        console.log(typeof action.payload?.newCycle.id)
-
         draft.cycles?.push(action.payload.newCycle),
           (draft.activeCycleId = action.payload?.newCycle.id)
+      })
+
+    case ActionTypes.DELETE_CYCLE:
+      return produce(state, (draft) => {
+        draft.cycles = draft.cycles.filter(
+          (cycle) => cycle.id !== action.payload.id,
+        )
       })
 
     case ActionTypes.INTERRUPT_CURRENT_CYCLE: {

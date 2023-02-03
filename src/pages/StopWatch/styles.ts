@@ -82,6 +82,9 @@ export const BaseStopWatchButton = styled.button`
 export const CanceledButton = styled(BaseStopWatchButton)`
   &.active {
     background-color: ${(props) => props.theme['red-500']};
+    &:hover {
+      background-color: ${(props) => props.theme['red-700']};
+    }
   }
 `
 

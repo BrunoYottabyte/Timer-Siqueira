@@ -78,6 +78,7 @@ const Countdown = ({ syncHoursAndMinutes }: ICountdownProps) => {
   }, [minutes, seconds]);
 
   let radius = 170;
+
   if (window.matchMedia("(max-width: 768px)").matches) {
     radius = 140;
   }
@@ -86,7 +87,10 @@ const Countdown = ({ syncHoursAndMinutes }: ICountdownProps) => {
 
   useEffect(() => {
     if (activeCycle) {
-      document.title = `${minutes}:${seconds}`;
+      document.title =
+        amountSecondsPassed > totalSeconds
+          ? `-${minutes}:${seconds}`
+          : `${minutes}:${seconds}`;
       return;
     }
     document.title = "Alarm App";
@@ -110,7 +114,6 @@ const Countdown = ({ syncHoursAndMinutes }: ICountdownProps) => {
     activeCycle?.startDate ? new Date(activeCycle?.startDate) : new Date(),
     activeCycle?.minutesAmount || 0
   );
-  console.log(dateExpected, amountSecondsPassed);
 
   useEffect(() => {
     if (!activeCycle?.paused) {

@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import {
   addNewCycleAction,
+  handleDeleteCycle,
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
   pauseCurrentCycleAction,
@@ -32,6 +33,7 @@ interface ICyclesContextData {
   interruptCurrentCycle: () => void;
   pauseCurrentCycle: () => void;
   setProgressBar: (percent: number | string) => void;
+  deleteCycle: (id: string) => void;
 }
 
 export const CyclesContext = createContext({} as ICyclesContextData);
@@ -99,6 +101,10 @@ export const CyclesContextProvider = ({
     setAmountSecondsPassed(0);
   };
 
+  const deleteCycle = (id) => {
+    dispatch(handleDeleteCycle(id));
+  };
+
   const interruptCurrentCycle = () => {
     dispatch(interruptCurrentCycleAction());
     setProgress(100);
@@ -127,6 +133,7 @@ export const CyclesContextProvider = ({
         setProgressBar,
         progress,
         pauseCurrentCycle,
+        deleteCycle,
       }}
     >
       {children}
